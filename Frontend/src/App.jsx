@@ -14,6 +14,7 @@ import UserContext from './Context/UserContext.jsx';
 import Login from './Pages/AuthPage/Login.jsx';
 import SignUp from './Pages/AuthPage/SignUp.jsx';
 import Home from './Pages/Dashboard/Home.jsx';
+import Expense from './Pages/Dashboard/Expens.jsx';
 
 
 
@@ -27,6 +28,7 @@ const App = () =>{
             <Route path="/login" element={<Login />} />
             <Route path="/signUp" element={<SignUp />} />
             <Route path="/home" element={<Home />} />
+            <Route Path="/expense" element={<Expense/>}/>
           </Routes>
         </Router>
       </div>

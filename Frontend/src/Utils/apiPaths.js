@@ -15,5 +15,9 @@ export const API_PATHS = {
     DASHBOARD : {
         GET_DATA : "/api/home"
 
+    },
+    EXPENSE :{
+        ADD_EXPENSE : "/api/expense/add",
+        GET_ALL_EXPENSE : '/api/expense/get',
     }
 };
