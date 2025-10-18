@@ -1,28 +1,21 @@
 const jwt = require("jsonwebtoken");
-
 const User = require("../model/User.js");
 
-const isAuth = async (req, res, next) =>{
-    try{
-        const {token} = req.cookies;
+const isAuth = async (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) return res.status(401).json({ message: "No token, please log in" });
 
-        if(!token){
-            return res.status(401).json({message : "No Token Provided . please Log in"});
-        }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.userId).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-        const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-
-        if(!verifyToken || !verifyToken.userId){
-            return res.status(404).json({message : "Invalid Token. Access Denied"});
-        }
-
-        req.userId = verifyToken.userId;
-
-        next();
-    }
-    catch(error){
-        res.status(401).json({message :`isAuth Error : ${error.message}`});
-    }
+    req.userId = decoded.userId;
+    req.user = user;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: `Auth Error: ${error.message}` });
+  }
 };
 
 module.exports = isAuth;

@@ -17,20 +17,25 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 8000;
 
-// Connect to DB
+// ✅ Connect to DB
 connectDB();
 
-// Middleware
+// ✅ CORS should come first
+app.use(
+  cors({
+    origin: "http://localhost:5173", // your frontend
+    credentials: true, // allow sending cookies
+  })
+);
+
+// ✅ Parse incoming JSON and form data
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// ✅ Parse cookies
 app.use(cookieParser());
 
-// CORS middleware
-app.use(cors({
-    origin: 'http://localhost:5173', // frontend URL
-    credentials: true                 // allow cookies/auth headers
-}));
-
-// Routes
+// ✅ Routes
 app.use("/api/auth", authRoute);
 app.use("/api/user", userRoute);
 app.use("/api/image", uploadRouter);
@@ -38,7 +43,8 @@ app.use("/api/income", incomeRouter);
 app.use("/api/home", dashRouter);
 app.use("/api/expense", expenseRouter);
 
-// Start server
+// ✅ Start server
 app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+  console.log(`✅ Server running on http://localhost:${port}`);
+  console.log("CORS enabled for:", "http://localhost:5173");
 });
