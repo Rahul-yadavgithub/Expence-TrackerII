@@ -82,7 +82,6 @@ const Expense = () =>{
         }
 
         try{
-
             await axiosInstance.post(API_PATHS.EXPENSE.ADD_EXPENSE, {
                 category,
                 amount, 
@@ -92,27 +91,26 @@ const Expense = () =>{
 
             setOpenAddExpenseModal(false);
 
-            toast.success("Expense Added Successfully. ");
+            toast.success("Expense Added Successfully.");
 
             fetchExpenseDetails();
         }
         catch(error){
-
-            console.log("Error in Adding Expense",error.message?.data?.message || error.message);
-            toast.error("Error Adding The Expense .please try again later");
+            console.error("Error in Adding Expense: ",
+                error.response?.data?.message || error.message
+            );
+            toast.error("Error Adding The Expense. Please try again later");
         }
     };
 
     const deleteExpense = async(id) =>{
         try{
-
             await axiosInstance.delete(API_PATHS.EXPENSE.DELETE_EXPENSE(id));
             setOpenDeleteAlert({show : false, data : null});
             toast.success("Expense Deleted Successfully");
             fetchExpenseDetails();
         }
         catch(error){
-
             console.error("Error in Deleting Expense: ",
                 error.response?.data?.message || error.message
             );
@@ -131,29 +129,21 @@ const Expense = () =>{
 
             const url = window.URL.createObjectURL(new Blob([response.data]));
 
-            const link = document.createElement("a");//  creating anchor tag temporary in the memory for the link so it is basically used for the link
-
-            link.href = url; // means i am assinging the url temporary to the tag <a/><a>
-
-            link.setAttribute("download", "Expense_details.xlsx"); // this is like  --->> element.setAttribute(attributeName, value);
-
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "Expense_details.xlsx");
             document.body.appendChild(link);
-
             link.click();
-
             link.parentNode.removeChild(link);
-
             window.URL.revokeObjectURL(url);
 
-            toast.success("Expense Details is Downloaded Successfully");
+            toast.success("Expense Details Downloaded Successfully");
         }
         catch(error){
-
             console.error(
                 "Error in Downloading the Expense Details",
                 error.response?.data?.message || error.message
             );
-
             toast.error("Failed to Download the Expense. Please try again later");
         }
     };
@@ -165,7 +155,7 @@ const Expense = () =>{
 
 
     return(
-        <DashboardLayout>
+        <DashboardLayout activeMenu={"Expense"}>
             <div className="my-5 mx-auto" >
                 <div className="grid grid-cols-1 gap-6">
                     <div className = "">
