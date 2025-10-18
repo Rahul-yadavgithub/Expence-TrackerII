@@ -4,7 +4,7 @@ const Expense = require("../model/Expense.js");
 
 const addExpense = async(req, res) =>{
 
-    const userId = req.user.id;
+    const userId = req.userId;  // ✅ this is safe and correct
 
     try{
         const {icon , category, amount, date} = req.body;
@@ -33,7 +33,7 @@ const addExpense = async(req, res) =>{
 
 const getAllExpenses = async(req, res) =>{
 
-    const userId = req.user.id;
+   const userId = req.userId;  // ✅ this is safe and correct
     try{
         const expense = await Expense.find({userId}).sort({date : -1});
         return res.json(expense);
@@ -55,7 +55,7 @@ const deleteExpense = async(req, res) =>{
 
 const downloadExpenseExcel = async(req, res) =>{
 
-    const userId = req.user.id;
+    const userId = req.userId;  // ✅ this is safe and correct
 
     try{
         const expense = await Expense.find({userId}).sort({date : -1});

@@ -4,7 +4,7 @@ const Income = require("../model/Income.js");
 
 const addIncome = async(req, res) =>{
 
-    const userId = req.user.id;
+    const userId = req.userId;  // ✅ this is safe and correct
 
     try{
         const { icon, source, amount, date } = req.body;
@@ -31,7 +31,7 @@ const addIncome = async(req, res) =>{
 
 
 const getAllIncome = async(req, res) =>{
-    const userId = req.user.id;
+    const userId = req.userId;  // ✅ this is safe and correct
 
     try{
         const income = await Income.find({userId}).sort({date : -1});
@@ -57,7 +57,7 @@ const deleteIncome = async(req, res) =>{
 
 
 const downloadIncomeExcel = async(req, res) =>{
-    const userId = req.user.id;
+    const userId = req.userId;  // ✅ this is safe and correct
 
     try{
         const income = await Income.find({userId}).sort({date : -1});
